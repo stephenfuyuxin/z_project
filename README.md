@@ -1,2 +1,2 @@
 # z_project
-record the processes of project
+record the processes of projects
