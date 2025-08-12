@@ -703,6 +703,8 @@ python3 benchmarks/benchmark_serving.py \
 - TPOT(ms)，取 DecodeTime 中 average
 
 推理后端32k(16k+16k)，MLA 2,8,4,4,1，输入输出4k1k，Concurrency:RequestCount=1:4
+
+指标 ttft 在并发35时陡降（连测3次）必现，并发15时 ttft<3s 达成，所有并发在 tpot < 100ms 达成；
 | Model      | dp | tp | moe_ep | moe_tp | sp | Model Length | Total Length | Concurrency | RequestCount | TTFT(ms)   | TPOT(ms) |
 | ---------- | -- | -- | ------ | ------ | -- | ------------ | ------------ | ----------- | ------------ | ---------- | -------- |
 | ds-r1-int8 | 2  | 8  | 4      | 4      | 1  | 32k(16k+16k) | 5k(4k+1k)    | 5           | 20           | 1303.85    | 64.5014  |
@@ -718,9 +720,9 @@ python3 benchmarks/benchmark_serving.py \
 | ds-r1-int8 | 2  | 8  | 4      | 4      | 1  | 32k(16k+16k) | 5k(4k+1k)    | 45          | 180          | 21946.1667 | 95.7002  |
 | ds-r1-int8 | 2  | 8  | 4      | 4      | 1  | 32k(16k+16k) | 5k(4k+1k)    | 50          | 200          | 35488.635  | 98.4092  |
 
-指标 ttft 在并发35时陡降（连测3次）必现，并发15时 ttft<3s 达成，所有并发在 tpot < 100ms 达成；
-
 推理后端32k(16k+16k)，MLA 2,8,4,4,1，输入输出4k1k，Concurrency:RequestCount=1:10
+
+指标 ttft 在并发35时陡降（连测3次）必现，并发15时 ttft<3s 达成，所有并发在 tpot < 100ms 达成；
 | Model      | dp | tp | moe_ep | moe_tp | sp | Model Length | Total Length | Concurrency | RequestCount | TTFT(ms)   | TPOT(ms) |
 | ---------- | -- | -- | ------ | ------ | -- | ------------ | ------------ | ----------- | ------------ | ---------- | -------- |
 | ds-r1-int8 | 2  | 8  | 4      | 4      | 1  | 32k(16k+16k) | 5k(4k+1k)    | 5           | 50           | 1320.48    | 67.464   |
@@ -736,9 +738,9 @@ python3 benchmarks/benchmark_serving.py \
 | ds-r1-int8 | 2  | 8  | 4      | 4      | 1  | 32k(16k+16k) | 5k(4k+1k)    | 45          | 450          | 23505.9667 | 95.0788  |
 | ds-r1-int8 | 2  | 8  | 4      | 4      | 1  | 32k(16k+16k) | 5k(4k+1k)    | 50          | 500          | 36194.582  | 93.898   |
 
-指标 ttft 在并发35时陡降（连测3次）必现，并发15时 ttft<3s 达成，所有并发在 tpot < 100ms 达成；
-
 推理后端32k(16k+16k)，MLA 2,8,16,1,8，输入输出4k1k，Concurrency:RequestCount=1:4
+
+指标 ttft 无陡降问题，相比 MLA 2,8,4,4,1，ttft 在低并发时性能基本持平存在少许劣化，高并发时性能上升趋势平缓具有一定优势；
 | Model      | dp | tp | moe_ep | moe_tp | sp | Model Length | Total Length | Concurrency | RequestCount | TTFT(ms)   | TPOT(ms) |
 | ---------- | -- | -- | ------ | ------ | -- | ------------ | ------------ | ----------- | ------------ | ---------- | -------- |
 | ds-r1-int8 | 2  | 8  | 16     | 1      | 8  | 32k(16k+16k) | 5k(4k+1k)    | 5           | 20           | 1437.4     | 89.6589  |
@@ -752,14 +754,14 @@ python3 benchmarks/benchmark_serving.py \
 | ds-r1-int8 | 2  | 8  | 16     | 1      | 8  | 32k(16k+16k) | 5k(4k+1k)    | 45          | 180          | 8333.0444  | 102.4389 |
 | ds-r1-int8 | 2  | 8  | 16     | 1      | 8  | 32k(16k+16k) | 5k(4k+1k)    | 50          | 200          | 9166.485   | 104.3129 |
 
-指标 ttft 无陡降问题，相比 MLA 2,8,4,4,1，ttft 在低并发时性能基本持平存在少许劣化，高并发时性能上升趋势平缓具有一定优势；
-
 ### MindIE 2.1.RC1.B092
 取值方式，
 - TTFT(ms)，取 FirstTokenTime 中 average
 - TPOT(ms)，取 DecodeTime 中 average
 
 推理后端32k(16k+16k)，MLA 2,8,4,4,1，输入输出4k1k，Concurrency:RequestCount=1:4
+
+指标 ttft 在并发35时仍然存在陡降现象，并发15时 ttft<3s 达成，ttft 整体趋势相比 2.1.T10.B060 有少许提升，所有并发在 tpot < 100ms 达成；
 | Model      | dp | tp | moe_ep | moe_tp | sp | Model Length | Total Length | Concurrency | RequestCount | TTFT(ms)   | TPOT(ms) |
 | ---------- | -- | -- | ------ | ------ | -- | ------------ | ------------ | ----------- | ------------ | ---------- | -------- |
 | ds-r1-int8 | 2  | 8  | 4      | 4      | 1  | 32k(16k+16k) | 5k(4k+1k)    | 5           | 20           | 1290.55    | 68.1276  |
@@ -773,8 +775,6 @@ python3 benchmarks/benchmark_serving.py \
 | ds-r1-int8 | 2  | 8  | 4      | 4      | 1  | 32k(16k+16k) | 5k(4k+1k)    | 45          | 180          | 21718.3056 | 96.5663  |
 | ds-r1-int8 | 2  | 8  | 4      | 4      | 1  | 32k(16k+16k) | 5k(4k+1k)    | 50          | 200          | 34309.195  | 94.514   |
 
-指标 ttft 在并发35时仍然存在陡降现象，并发15时 ttft<3s 达成，ttft 整体趋势相比 2.1.T10.B060 有少许提升，所有并发在 tpot < 100ms 达成；
-
 ## vLLM benchmark
 涉及 MindIE 三个版本 MindIE 2.1.T10.B060, MindIE 2.1.RC1.B092, MindIE 2.1.RC1.B152，以 B152 版本为准，
 
@@ -786,6 +786,8 @@ python3 benchmarks/benchmark_serving.py \
 - TOPT(ms)，取 Mean TPOT (ms) 值；
 
 推理后端32k(16k+16k)，MLA 2,8,4,4,1，输入输出4k1k，max-concurrency:num-prompts=1:4
+
+指标 ttft 在并发35时仍然存在陡降现象，并发15时 ttft 为 2.9s+，ttft<3s 达成，tpot 在高并发时存在 100ms+；
 | Model      | dp | tp | moe_ep | moe_tp | sp | Model Length | Total Length | Concurrency | RequestCount | TTFT(ms)   | TPOT(ms) |
 | ---------- | -- | -- | ------ | ------ | -- | ------------ | ------------ | ----------- | ------------ | ---------- | -------- |
 | ds-r1-int8 | 2  | 8  | 4      | 4      | 1  | 32k(16k+16k) | 5k(4k+1k)    | 5           | 20           | 1344.10    | 73.86    |
@@ -799,9 +801,9 @@ python3 benchmarks/benchmark_serving.py \
 | ds-r1-int8 | 2  | 8  | 4      | 4      | 1  | 32k(16k+16k) | 5k(4k+1k)    | 45          | 180          | 20048.14   | 103.50   |
 | ds-r1-int8 | 2  | 8  | 4      | 4      | 1  | 32k(16k+16k) | 5k(4k+1k)    | 50          | 200          | 34602.93   | 103.80   |
 
-指标 ttft 在并发35时仍然存在陡降现象，并发15时 ttft 为 2.9s+，ttft<3s 达成，tpot 在高并发时存在 100ms+；
-
 推理后端32k(16k+16k)，MLA 2,8,16,1,8，输入输出4k1k，max-concurrency:num-prompts=1:4
+
+指标 ttft 无陡降问题，相比 MLA 2,8,4,4,1，并发15时 ttft 为 3.2s+，tpot 在高并发时存在 100ms+；
 | Model      | dp | tp | moe_ep | moe_tp | sp | Model Length | Total Length | Concurrency | RequestCount | TTFT(ms)   | TPOT(ms) |
 | ---------- | -- | -- | ------ | ------ | -- | ------------ | ------------ | ----------- | ------------ | ---------- | -------- |
 | ds-r1-int8 | 2  | 8  | 16     | 1      | 8  | 32k(16k+16k) | 5k(4k+1k)    | 5           | 20           | 1574.69    | 88.02    |
@@ -815,9 +817,9 @@ python3 benchmarks/benchmark_serving.py \
 | ds-r1-int8 | 2  | 8  | 16     | 1      | 8  | 32k(16k+16k) | 5k(4k+1k)    | 45          | 180          | 8807.63    | 99.21    |
 | ds-r1-int8 | 2  | 8  | 16     | 1      | 8  | 32k(16k+16k) | 5k(4k+1k)    | 50          | 200          | 9673.76    | 103.43   |
 
-指标 ttft 无陡降问题，相比 MLA 2,8,4,4,1，并发15时 ttft 为 3.2s+，tpot 在高并发时存在 100ms+；
-
 推理后端32k(16k+16k)，MLA 2,8,4,4,1，使能 MTP 特性，输入输出4k1k，max-concurrency:num-prompts=1:4
+
+指标 ttft 无陡降问题，相同 MLA 策略下使能 MTP 特性相比非 MTP特性，ttft 性能提升明显，但 tpot 结果性能存在劣化10倍+，且 mean 相比 median 数据差距较大，不合理；
 | Model      | dp | tp | moe_ep | moe_tp | sp | Model Length | Total Length | Concurrency | RequestCount | TTFT(ms)   | TPOT(ms) | Median TPOT(ms) |
 | ---------- | -- | -- | ------ | ------ | -- | ------------ | ------------ | ----------- | ------------ | ---------- | -------- | --------------- |
 | ds-r1-int8 | 2  | 8  | 4      | 4      | 1  | 16k(16k+16k) | 5k(4k+1k)    | 5           | 20           | 991.15     | 773.32   | 51.71           |
@@ -831,14 +833,14 @@ python3 benchmarks/benchmark_serving.py \
 | ds-r1-int8 | 2  | 8  | 4      | 4      | 1  | 16k(16k+16k) | 5k(4k+1k)    | 45          | 180          | 7875.97    | 686.84   | 88.03           |
 | ds-r1-int8 | 2  | 8  | 4      | 4      | 1  | 16k(16k+16k) | 5k(4k+1k)    | 50          | 200          | 15727.13   | 932.70   | 91.93           |
 
-指标 ttft 无陡降问题，相同 MLA 策略下使能 MTP 特性相比非 MTP特性，ttft 性能提升明显，但 tpot 结果性能存在劣化10倍+，且 mean 相比 median 数据差距较大，不合理；
-
 ### vLLM 0.10.1 + MindIE 2.1.RC1.B152
 取值方式，
 - TTFT(ms)，取 Mean TTFT (ms) 值；
 - TOPT(ms)，取 Mean TPOT (ms) 值；
 
 推理后端32k(16k+16k)，MLA 2,8,4,4,1，使能 MTP 特性，输入输出4k1k，max-concurrency:num-prompts=1:4
+
+使能 MTP 特性下，相同 MLA 2,8,4,4,1 策略，vllm 0.10.1与0.8.5 ttft 性能趋势类似，但 tpot 结果存在正常/不正常结果，且 mean 与 median 之间的差距仍然较大，不合理；
 | Model      | dp | tp | moe_ep | moe_tp | sp | Model Length | Total Length | Concurrency | RequestCount | TTFT(ms)   | TPOT(ms) | Median TPOT(ms) |
 | ---------- | -- | -- | ------ | ------ | -- | ------------ | ------------ | ----------- | ------------ | ---------- | -------- | --------------- |
 | ds-r1-int8 | 2  | 8  | 4      | 4      | 1  | 16k(16k+16k) | 5k(4k+1k)    | 5           | 20           | 990.77     | 50.22    | 52.28           |
@@ -852,9 +854,9 @@ python3 benchmarks/benchmark_serving.py \
 | ds-r1-int8 | 2  | 8  | 4      | 4      | 1  | 16k(16k+16k) | 5k(4k+1k)    | 45          | 180          |    |    |            |
 | ds-r1-int8 | 2  | 8  | 4      | 4      | 1  | 16k(16k+16k) | 5k(4k+1k)    | 50          | 200          |    |    |            |
 
-使能 MTP 特性下，相同 MLA 2,8,4,4,1 策略，vllm 0.10.1与0.8.5 ttft 性能趋势类似，但 tpot 结果存在正常/不正常结果，且 mean 与 median 之间的差距仍然较大，不合理；
-
 推理后端32k(16k+16k)，MLA 2,8,4,4,1，去使能 MTP 特性，输入输出4k1k，max-concurrency:num-prompts=1:4
+
+使能 MTP 特性下，仅去使能 MTP 功能，相同 MLA 2,8,4,4,1 策略，ttft 和 tpot 性能趋势类似，无明显提升，且 ttft 存在少许性能劣化；
 | Model      | dp | tp | moe_ep | moe_tp | sp | Model Length | Total Length | Concurrency | RequestCount | TTFT(ms)   | TPOT(ms) | Median TPOT(ms) |
 | ---------- | -- | -- | ------ | ------ | -- | ------------ | ------------ | ----------- | ------------ | ---------- | -------- | --------------- |
 | ds-r1-int8 | 2  | 8  | 4      | 4      | 1  | 32k(16k+16k) | 5k(4k+1k)    | 5           | 20           | 1394.36    | 72.50    | 72.09           |
@@ -868,9 +870,9 @@ python3 benchmarks/benchmark_serving.py \
 | ds-r1-int8 | 2  | 8  | 4      | 4      | 1  | 32k(16k+16k) | 5k(4k+1k)    | 45          | 180          |    |    |            |
 | ds-r1-int8 | 2  | 8  | 4      | 4      | 1  | 32k(16k+16k) | 5k(4k+1k)    | 50          | 200          |    |    |            |
 
-使能 MTP 特性下，仅去使能 MTP 功能，相同 MLA 2,8,4,4,1 策略，ttft 和 tpot 性能趋势类似，无明显提升，且 ttft 存在少许性能劣化；
-
 推理后端32k(16k+16k)，MLA 2,8,4,4,1，去使能 MTP 特性，长序列推理配置，输入输出4k1k，max-concurrency:num-prompts=1:4
+
+长序列推理配置，非 MTP 特性，适配 32k(16k+16k) 场景，ttft 和 tpot 性能趋势类似，无明显提升，且 ttft 和 tpot 均存在少许性能劣化；
 | Model      | dp | tp | moe_ep | moe_tp | sp | cp | Model Length | Total Length | Concurrency | RequestCount | TTFT(ms)   | TPOT(ms) | Median TPOT(ms) |
 | ---------- | -- | -- | ------ | ------ | -- | -- | ------------ | ------------ | ----------- | ------------ | ---------- | -------- | --------------- |
 | ds-r1-int8 | 1  | 8  | 16     | 1      | 8  | 2  | 32k(16k+16k) | 5k(4k+1k)    | 5           | 20           | 1737.15    | 95.70    | 94.70           |
@@ -884,4 +886,4 @@ python3 benchmarks/benchmark_serving.py \
 | ds-r1-int8 | 1  | 8  | 16     | 1      | 8  | 2  | 32k(16k+16k) | 5k(4k+1k)    | 45          | 180          |    |    |            |
 | ds-r1-int8 | 1  | 8  | 16     | 1      | 8  | 2  | 32k(16k+16k) | 5k(4k+1k)    | 50          | 200          |    |    |            |
 
-长序列推理配置，非 MTP 特性，适配 32k(16k+16k) 场景，ttft 和 tpot 性能趋势类似，无明显提升，且 ttft 和 tpot 均存在少许性能劣化；
+
