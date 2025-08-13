@@ -4,6 +4,7 @@
 ## 环境名称_虚拟机（自研 vllm 0.9.2 + mindie 2.1.T10.B060）
 - TTFT(ms)，取 Mean TTFT (ms) 值；
 - TOPT(ms)，取 Mean TPOT (ms) 值；
+
 | Model      | dp | tp | moe_ep | moe_tp | sp | Model Length | Total Length | Concurrency | RequestCount | TTFT(ms)   | TPOT(ms) |
 | ---------- | -- | -- | ------ | ------ | -- | ------------ | ------------ | ----------- | ------------ | ---------- | -------- |
 | ds-r1-int8 | 2  | 8  | 4      | 4      | 1  | 32k(16k+16k) | 5k(4k+1k)    | 5           | 50           | 2309.09984 | 65.3889  |
@@ -20,6 +21,7 @@
 ## 环境名称_虚拟机|ignore-eos（自研 vllm 0.9.2 + mindie 2.1.T10.B060）
 - TTFT(ms)，取 Mean TTFT (ms) 值；
 - TOPT(ms)，取 Mean TPOT (ms) 值；
+
 | Model      | dp | tp | moe_ep | moe_tp | sp | Model Length | Total Length | Concurrency | RequestCount | TTFT(ms)   | TPOT(ms) |
 | ---------- | -- | -- | ------ | ------ | -- | ------------ | ------------ | ----------- | ------------ | ---------- | -------- |
 | ds-r1-int8 | 2  | 8  | 4      | 4      | 1  | 32k(16k+16k) | 5k(4k+1k)    | 5           | 50           | 2155.57767 | 65.0216  |
@@ -36,6 +38,7 @@
 ## 环境名称_虚拟机|prefix（自研 vllm 0.9.2 + mindie 2.1.T10.B060）
 - TTFT(ms)，取 Mean TTFT (ms) 值；
 - TOPT(ms)，取 Mean TPOT (ms) 值；
+
 | Model      | dp | tp | moe_ep | moe_tp | sp | Model Length | Total Length | Concurrency | RequestCount | TTFT(ms)   | TPOT(ms) |
 | ---------- | -- | -- | ------ | ------ | -- | ------------ | ------------ | ----------- | ------------ | ---------- | -------- |
 | ds-r1-int8 | 2  | 8  | 4      | 4      | 1  | 32k(16k+16k) | 5k(4k+1k)    | 5           | 50           | 2271.65141 | 64.6056  |
@@ -52,6 +55,7 @@
 ## 环境名称_虚拟机|ratio=0.5（自研 vllm 0.9.2 + mindie 2.1.T10.B060）
 - TTFT(ms)，取 Mean TTFT (ms) 值；
 - TOPT(ms)，取 Mean TPOT (ms) 值；
+
 | Model      | dp | tp | moe_ep | moe_tp | sp | Model Length | Total Length | Concurrency | RequestCount | TTFT(ms)   | TPOT(ms) |
 | ---------- | -- | -- | ------ | ------ | -- | ------------ | ------------ | ----------- | ------------ | ---------- | -------- |
 | ds-r1-int8 | 2  | 8  | 4      | 4      | 1  | 32k(16k+16k) | 5k(4k+1k)    | 5           | 50           | 1068.08504 | 66.9431  |
@@ -70,6 +74,7 @@
 ## 环境名称_自研 vllm 0.9.2 镜像 + 10.129.135.66（自研 vllm 0.9.2 + mindie 2.1.RC1.B152）
 - TTFT(ms)，取 Mean TTFT (ms) 值；
 - TOPT(ms)，取 Mean TPOT (ms) 值；
+
 | Model      | dp | tp | moe_ep | moe_tp | sp | Model Length | Total Length | Concurrency | RequestCount | TTFT(ms)   | TPOT(ms) |
 | ---------- | -- | -- | ------ | ------ | -- | ------------ | ------------ | ----------- | ------------ | ---------- | -------- |
 | ds-r1-int8 | 2  | 8  | 4      | 4      | 1  | 32k(16k+16k) | 5k(4k+1k)    | 5           | 50           | 1291.27284 | 67.5236  |
