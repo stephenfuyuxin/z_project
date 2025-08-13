@@ -37,16 +37,16 @@ ed2618b6c95832bccd8dbb44fd7862f8  quant_model_weight_w8a8_dynamic.index.json.bak
 ```
 
 # 解决方法
-将所需 quant_model_description_w8a8_dynamic.json 和 quant_model_weight_w8a8_dynamic.index.json 放入权重路径，对原有的文件进行 .bak 后缀化，
+将所需 quant_model_description_w8a8_dynamic.json 和 quant_model_weight_w8a8_dynamic.index.json 放入权重路径，对原有的文件进行 .bak 后缀化，全量文件获取链接参考，
 
-文件获取链接，https://docs.qq.com/sheet/DVkFYbnBDd3JvV0VN?tab=u59jn7
+https://docs.qq.com/sheet/DVkFYbnBDd3JvV0VN?tab=u59jn7
 
-quant_model_description_w8a8_dynamic.json
-```shell
+quant_model_description_w8a8_dynamic.json 文件获取链接，
+
 https://poc-resource.obs.cn-south-1.myhuaweicloud.com:443/%E6%A8%A1%E5%9E%8B%E6%9D%83%E9%87%8D/deepseek-r1-w8a8-mtp-only/quant_model_description_w8a8_dynamic.json?AccessKeyId=TRRYAVJVC5ETCYNIGOSG&Expires=1776521710&Signature=QXTtYNScot6pfHNSU1Yp8iEpNH4%3D
-```
-quant_model_weight_w8a8_dynamic.index.json
-```shell
+
+quant_model_weight_w8a8_dynamic.index.json 文件获取链接，
+
 https://poc-resource.obs.cn-south-1.myhuaweicloud.com:443/%E6%A8%A1%E5%9E%8B%E6%9D%83%E9%87%8D/deepseek-r1-w8a8-mtp-only/quant_model_weight_w8a8_dynamic.index.json?AccessKeyId=TRRYAVJVC5ETCYNIGOSG&Expires=1776521721&Signature=ruOxBax7opghJJE0JT3inIiGNQ8%3D
-```
+
 
