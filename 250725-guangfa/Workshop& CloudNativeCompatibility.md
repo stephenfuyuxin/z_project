@@ -234,60 +234,60 @@ run.sh，这里
 #!/bin/bash
 IMAGE='docker2.gf.com.cn/aims2/ascendhub/mindie:2.1.RC1-800I-A2-py311-openeuler24.03-lts-arm64'
 docker run -it --rm --name deepseek-r1-test \
-        --shm-size 500g \
-        --device=/dev/davinci0 \
-        --device=/dev/davinci1 \
-        --device=/dev/davinci2 \
-        --device=/dev/davinci3 \
-        --device=/dev/davinci4 \
-        --device=/dev/davinci5 \
-        --device=/dev/davinci6 \
-        --device=/dev/davinci7 \
-        --device=/dev/davinci_manager \
-        --device=/dev/devmm_svm \
-        --device=/dev/hisi_hdc \
-        -v /etc/localtime:/etc/localtime:ro \
-        -v /usr/local/sbin/npu-smi:/usr/local/sbin/npu-smi \
-        -v /var/log/npu/slog/:/var/log/npu/slog \
-        -v /usr/local/Ascend/driver:/usr/local/Ascend/driver \
-        -v /usr/local/Ascend/add-ons/:/usr/local/Ascend/add-ons/ \
-        -v /var/log/npu/conf/slog/slog.conf:/var/log/npu/conf/slog/slog.conf \
-        -v /etc/hccn.conf:/etc/hccn.conf \
-        -v /usr/local/Ascend/firmware:/usr/local/Ascend/firmware \
-        -v /usr/local/sbin/:/usr/local/sbin/ \
-        -v /data:/data \
-        -v /root/deepseek-r1-start/r1-config.json:/usr/local/Ascend/mindie/latest/mindie-service/conf/config.json \
-        -v /root/deepseek-r1-start/ranktable.json:/etc/mindie_ranktable.json:ro \
-        -e PYTORCH_NPU_ALLOC_CONF=expandable_segments:True \
-        -e NPU_MEMORY_FRACTION=0.97 \
-        -e ATB_WORKSPACE_MEM_ALLOC_ALG_TYPE=3 \
-        -e ATB_WORKSPACE_MEM_ALLOC_GLOBAL=1 \
-        -e OMP_NUM_THREADS=10 \
-        -e HCCL_DETERMINISTIC=false \
-        -e HCCL_OP_EXPANSION_MODE="AIV" \
-        -e ATB_LLM_HCCL_ENABLE=1 \
-        -e ATB_LLM_COMM_BACKEND="hccl" \
-        -e INF_NAN_MODE_ENABLE=1 \
-        -e TASK_QUEUE_ENABLE=2 \
-        -e CPU_AFFINITY_CONF=1 \
-        -e ASCEND_LAUNCH_BLOCKING="" \
-        -e ATB_LAYER_INTERNAL_TENSOR_REUSE=1 \
-        -e ATB_OPENATION_EXECUTE_ASYNC=1 \
-        -e ATB_CONVERT_NCHW_TO_ND=1 \
-        -e MINDIE_ASYNC_SCHEDULING_ENABLE=1 \
-        -e ATB_CONTEXT_WORKSPACE_SIZE=0 \
-        -e ATB_LAUNCH_KERNEL_WITH_TILING=1 \
-        -e ATB_LLM_ENABLE_AUTO_TRANSPOSE=0 \
-        -e HCCL_CONNECT_TIMEOUT=7200 \
-        -e HCCL_EXEC_TIMEOUT=0 \
-        -e HCCL_RDMA_PCIE_DIRECT_POST_NOSTRICT=TRUE \
-        -e MIES_CONTAINER_IP=10.129.155.203 \
-        -e RANK_TABLE_FILE=/etc/mindie_ranktable.json \
-        --workdir /usr/local/Ascend/mindie/latest/mindie-service/bin \
-        --ipc=host \
-        --network=host \
-        ${IMAGE} \
-        /usr/local/Ascend/mindie/latest/mindie-service/bin/mindieservice_daemon
+    --shm-size 500g \
+    --device=/dev/davinci0 \
+    --device=/dev/davinci1 \
+    --device=/dev/davinci2 \
+    --device=/dev/davinci3 \
+    --device=/dev/davinci4 \
+    --device=/dev/davinci5 \
+    --device=/dev/davinci6 \
+    --device=/dev/davinci7 \
+    --device=/dev/davinci_manager \
+    --device=/dev/devmm_svm \
+    --device=/dev/hisi_hdc \
+    -v /etc/localtime:/etc/localtime:ro \
+    -v /usr/local/sbin/npu-smi:/usr/local/sbin/npu-smi \
+    -v /var/log/npu/slog/:/var/log/npu/slog \
+    -v /usr/local/Ascend/driver:/usr/local/Ascend/driver \
+    -v /usr/local/Ascend/add-ons/:/usr/local/Ascend/add-ons/ \
+    -v /var/log/npu/conf/slog/slog.conf:/var/log/npu/conf/slog/slog.conf \
+    -v /etc/hccn.conf:/etc/hccn.conf \
+    -v /usr/local/Ascend/firmware:/usr/local/Ascend/firmware \
+    -v /usr/local/sbin/:/usr/local/sbin/ \
+    -v /data:/data \
+    -v /root/deepseek-r1-start/r1-config.json:/usr/local/Ascend/mindie/latest/mindie-service/conf/config.json \
+    -v /root/deepseek-r1-start/ranktable.json:/etc/mindie_ranktable.json:ro \
+    -e PYTORCH_NPU_ALLOC_CONF=expandable_segments:True \
+    -e NPU_MEMORY_FRACTION=0.97 \
+    -e ATB_WORKSPACE_MEM_ALLOC_ALG_TYPE=3 \
+    -e ATB_WORKSPACE_MEM_ALLOC_GLOBAL=1 \
+    -e OMP_NUM_THREADS=10 \
+    -e HCCL_DETERMINISTIC=false \
+    -e HCCL_OP_EXPANSION_MODE="AIV" \
+    -e ATB_LLM_HCCL_ENABLE=1 \
+    -e ATB_LLM_COMM_BACKEND="hccl" \
+    -e INF_NAN_MODE_ENABLE=1 \
+    -e TASK_QUEUE_ENABLE=2 \
+    -e CPU_AFFINITY_CONF=1 \
+    -e ASCEND_LAUNCH_BLOCKING="" \
+    -e ATB_LAYER_INTERNAL_TENSOR_REUSE=1 \
+    -e ATB_OPENATION_EXECUTE_ASYNC=1 \
+    -e ATB_CONVERT_NCHW_TO_ND=1 \
+    -e MINDIE_ASYNC_SCHEDULING_ENABLE=1 \
+    -e ATB_CONTEXT_WORKSPACE_SIZE=0 \
+    -e ATB_LAUNCH_KERNEL_WITH_TILING=1 \
+    -e ATB_LLM_ENABLE_AUTO_TRANSPOSE=0 \
+    -e HCCL_CONNECT_TIMEOUT=7200 \
+    -e HCCL_EXEC_TIMEOUT=0 \
+    -e HCCL_RDMA_PCIE_DIRECT_POST_NOSTRICT=TRUE \
+    -e MIES_CONTAINER_IP=10.129.155.203 \
+    -e RANK_TABLE_FILE=/etc/mindie_ranktable.json \
+    --workdir /usr/local/Ascend/mindie/latest/mindie-service/bin \
+    --ipc=host \
+    --network=host \
+    ${IMAGE} \
+    /usr/local/Ascend/mindie/latest/mindie-service/bin/mindieservice_daemon
 ```
 
 ## docker run 开箱即用方案2
@@ -306,46 +306,46 @@ ASCEND_VISIBLE_DEVICES 环境变量的使用方法：https://www.hiascend.com/do
 #!/bin/bash
 IMAGE='docker2.gf.com.cn/aims2/ascendhub/mindie:2.1.RC1-800I-A2-py311-openeuler24.03-lts-arm64'
 docker run -it --rm --name deepseek-r1-test \
-        --shm-size 500g \
-        -e ASCEND_VISIBLE_DEVICES=0-7 \
-        -v /etc/localtime:/etc/localtime:ro \
-        -v /data:/data \
-        -v /root/deepseek-r1-start/r1-config.json:/usr/local/Ascend/mindie/latest/mindie-service/conf/config.json \
-        -v /root/deepseek-r1-start/ranktable.json:/etc/mindie_ranktable.json:ro \
-        -e PYTORCH_NPU_ALLOC_CONF=expandable_segments:True \
-        -e NPU_MEMORY_FRACTION=0.97 \
-        -e ATB_WORKSPACE_MEM_ALLOC_ALG_TYPE=3 \
-        -e ATB_WORKSPACE_MEM_ALLOC_GLOBAL=1 \
-        -e OMP_NUM_THREADS=10 \
-        -e HCCL_DETERMINISTIC=false \
-        -e HCCL_OP_EXPANSION_MODE="AIV" \
-        -e ATB_LLM_HCCL_ENABLE=1 \
-        -e ATB_LLM_COMM_BACKEND="hccl" \
-        -e INF_NAN_MODE_ENABLE=1 \
-        -e TASK_QUEUE_ENABLE=2 \
-        -e CPU_AFFINITY_CONF=1 \
-        -e ASCEND_LAUNCH_BLOCKING="" \
-        -e ATB_LAYER_INTERNAL_TENSOR_REUSE=1 \
-        -e ATB_OPENATION_EXECUTE_ASYNC=1 \
-        -e ATB_CONVERT_NCHW_TO_ND=1 \
-        -e MINDIE_ASYNC_SCHEDULING_ENABLE=1 \
-        -e ATB_CONTEXT_WORKSPACE_SIZE=0 \
-        -e ATB_LAUNCH_KERNEL_WITH_TILING=1 \
-        -e ATB_LLM_ENABLE_AUTO_TRANSPOSE=0 \
-        -e HCCL_CONNECT_TIMEOUT=7200 \
-        -e HCCL_EXEC_TIMEOUT=0 \
-        -e HCCL_RDMA_PCIE_DIRECT_POST_NOSTRICT=TRUE \
-        -e MIES_CONTAINER_IP=10.129.155.203 \
-        -e RANK_TABLE_FILE=/etc/mindie_ranktable.json \
-        --workdir /usr/local/Ascend/mindie/latest/mindie-service/bin \
-        --ipc=host \
-        --network=host \
-        ${IMAGE} \
-        /usr/local/Ascend/mindie/latest/mindie-service/bin/mindieservice_daemon
+    --shm-size 500g \
+    -e ASCEND_VISIBLE_DEVICES=0-7 \
+    -v /etc/localtime:/etc/localtime:ro \
+    -v /data:/data \
+    -v /root/deepseek-r1-start/r1-config.json:/usr/local/Ascend/mindie/latest/mindie-service/conf/config.json \
+    -v /root/deepseek-r1-start/ranktable.json:/etc/mindie_ranktable.json:ro \
+    -e PYTORCH_NPU_ALLOC_CONF=expandable_segments:True \
+    -e NPU_MEMORY_FRACTION=0.97 \
+    -e ATB_WORKSPACE_MEM_ALLOC_ALG_TYPE=3 \
+    -e ATB_WORKSPACE_MEM_ALLOC_GLOBAL=1 \
+    -e OMP_NUM_THREADS=10 \
+    -e HCCL_DETERMINISTIC=false \
+    -e HCCL_OP_EXPANSION_MODE="AIV" \
+    -e ATB_LLM_HCCL_ENABLE=1 \
+    -e ATB_LLM_COMM_BACKEND="hccl" \
+    -e INF_NAN_MODE_ENABLE=1 \
+    -e TASK_QUEUE_ENABLE=2 \
+    -e CPU_AFFINITY_CONF=1 \
+    -e ASCEND_LAUNCH_BLOCKING="" \
+    -e ATB_LAYER_INTERNAL_TENSOR_REUSE=1 \
+    -e ATB_OPENATION_EXECUTE_ASYNC=1 \
+    -e ATB_CONVERT_NCHW_TO_ND=1 \
+    -e MINDIE_ASYNC_SCHEDULING_ENABLE=1 \
+    -e ATB_CONTEXT_WORKSPACE_SIZE=0 \
+    -e ATB_LAUNCH_KERNEL_WITH_TILING=1 \
+    -e ATB_LLM_ENABLE_AUTO_TRANSPOSE=0 \
+    -e HCCL_CONNECT_TIMEOUT=7200 \
+    -e HCCL_EXEC_TIMEOUT=0 \
+    -e HCCL_RDMA_PCIE_DIRECT_POST_NOSTRICT=TRUE \
+    -e MIES_CONTAINER_IP=10.129.155.203 \
+    -e RANK_TABLE_FILE=/etc/mindie_ranktable.json \
+    --workdir /usr/local/Ascend/mindie/latest/mindie-service/bin \
+    --ipc=host \
+    --network=host \
+    ${IMAGE} \
+    /usr/local/Ascend/mindie/latest/mindie-service/bin/mindieservice_daemon
 ```
 
 ## docker run 开箱即用方案3
-开箱即用方案3即非主机网络开箱即用方案，本质上仍然是启动容器之后，根据实际环境设置环境变量之后，再启动推理服务化方式，并不能达到主机网络开箱即用方案2 **启动即服务** 的方式
+开箱即用方案3即非主机网络开箱即用方案，本质上仍然是启动容器之后，根据实际环境设置环境变量之后，再启动推理服务化方式，并不能达到主机网络开箱即用方案2 **启动即服务** 的方式；
 
 run.sh，这里
 - `--network` 取消 host 设置，通过端口映射，通过 `-p` 将 MindIE 相关端口进行暴露；
@@ -357,39 +357,39 @@ run.sh，这里
 #!/bin/bash
 IMAGE='docker2.gf.com.cn/aims2/ascendhub/mindie:2.1.RC1-800I-A2-py311-openeuler24.03-lts-arm64'
 docker run -itd --name deepseek-r1-test \
-        --shm-size 500g \
-        -e ASCEND_VISIBLE_DEVICES=0-7 \
-        -v /etc/localtime:/etc/localtime:ro \
-        -v /data:/data \
-        -v /root/deepseek-r1-start/r1-config.json:/usr/local/Ascend/mindie/latest/mindie-service/conf/config.json \
-        -v /root/deepseek-r1-start/ranktable.json:/etc/mindie_ranktable.json:ro \
-        -e PYTORCH_NPU_ALLOC_CONF=expandable_segments:True \
-        -e NPU_MEMORY_FRACTION=0.97 \
-        -e ATB_WORKSPACE_MEM_ALLOC_ALG_TYPE=3 \
-        -e ATB_WORKSPACE_MEM_ALLOC_GLOBAL=1 \
-        -e OMP_NUM_THREADS=10 \
-        -e HCCL_DETERMINISTIC=false \
-        -e HCCL_OP_EXPANSION_MODE="AIV" \
-        -e ATB_LLM_HCCL_ENABLE=1 \
-        -e ATB_LLM_COMM_BACKEND="hccl" \
-        -e INF_NAN_MODE_ENABLE=1 \
-        -e TASK_QUEUE_ENABLE=2 \
-        -e CPU_AFFINITY_CONF=1 \
-        -e ASCEND_LAUNCH_BLOCKING="" \
-        -e ATB_LAYER_INTERNAL_TENSOR_REUSE=1 \
-        -e ATB_OPENATION_EXECUTE_ASYNC=1 \
-        -e ATB_CONVERT_NCHW_TO_ND=1 \
-        -e MINDIE_ASYNC_SCHEDULING_ENABLE=1 \
-        -e ATB_CONTEXT_WORKSPACE_SIZE=0 \
-        -e ATB_LAUNCH_KERNEL_WITH_TILING=1 \
-        -e ATB_LLM_ENABLE_AUTO_TRANSPOSE=0 \
-        -e HCCL_CONNECT_TIMEOUT=7200 \
-        -e HCCL_EXEC_TIMEOUT=0 \
-        -e HCCL_RDMA_PCIE_DIRECT_POST_NOSTRICT=TRUE \
-        --workdir /usr/local/Ascend/mindie/latest/mindie-service/bin \
-        -p xxxx:xxxx
-        ${IMAGE} \
-        /bin/bash
+    --shm-size 500g \
+    -e ASCEND_VISIBLE_DEVICES=0-7 \
+    -v /etc/localtime:/etc/localtime:ro \
+    -v /data:/data \
+    -v /root/deepseek-r1-start/r1-config.json:/usr/local/Ascend/mindie/latest/mindie-service/conf/config.json \
+    -v /root/deepseek-r1-start/ranktable.json:/etc/mindie_ranktable.json:ro \
+    -e PYTORCH_NPU_ALLOC_CONF=expandable_segments:True \
+    -e NPU_MEMORY_FRACTION=0.97 \
+    -e ATB_WORKSPACE_MEM_ALLOC_ALG_TYPE=3 \
+    -e ATB_WORKSPACE_MEM_ALLOC_GLOBAL=1 \
+    -e OMP_NUM_THREADS=10 \
+    -e HCCL_DETERMINISTIC=false \
+    -e HCCL_OP_EXPANSION_MODE="AIV" \
+    -e ATB_LLM_HCCL_ENABLE=1 \
+    -e ATB_LLM_COMM_BACKEND="hccl" \
+    -e INF_NAN_MODE_ENABLE=1 \
+    -e TASK_QUEUE_ENABLE=2 \
+    -e CPU_AFFINITY_CONF=1 \
+    -e ASCEND_LAUNCH_BLOCKING="" \
+    -e ATB_LAYER_INTERNAL_TENSOR_REUSE=1 \
+    -e ATB_OPENATION_EXECUTE_ASYNC=1 \
+    -e ATB_CONVERT_NCHW_TO_ND=1 \
+    -e MINDIE_ASYNC_SCHEDULING_ENABLE=1 \
+    -e ATB_CONTEXT_WORKSPACE_SIZE=0 \
+    -e ATB_LAUNCH_KERNEL_WITH_TILING=1 \
+    -e ATB_LLM_ENABLE_AUTO_TRANSPOSE=0 \
+    -e HCCL_CONNECT_TIMEOUT=7200 \
+    -e HCCL_EXEC_TIMEOUT=0 \
+    -e HCCL_RDMA_PCIE_DIRECT_POST_NOSTRICT=TRUE \
+    --workdir /usr/local/Ascend/mindie/latest/mindie-service/bin \
+    -p xxxx:xxxx
+    ${IMAGE} \
+    /bin/bash
 ```
 
 对于非主机网络的场景，`MIES_CONTAINER_IP` 需要配置为 `container` 的 IP，由于容器启动前无法预知，只能通过启动脚本动态配置进行变通。ranktable.json 相关的环境变量同理，
@@ -397,7 +397,60 @@ docker run -itd --name deepseek-r1-test \
 export MIES_CONTAINER_IP=10.129.155.202
 export RANK_TABLE_FILE=/etc/mindie_ranktable.json
 ```
-非主机网络，端口映射场景，上述环境变量需要先启动容器后再单独设置并使能之后，再启动 MindIE 推理服务化，否则服务化启动失败
+非主机网络，端口映射场景，上述环境变量需要先启动容器后再单独设置并使能之后，再启动 MindIE 推理服务化，否则服务化启动失败；
+
+### --network 主机网络 or 端口映射
+容器方案在生产环境不得使用主机网络的原因，客户只考虑端口映射的方式，从几个方面说明，
+
+#### 端口冲突与隔离性
+- 主机网络：容器直接使用宿主机IP和端口，所有容器共享同一网络命名空间；
+
+    风险：若多个容器监听同一端口（如80/443），会直接冲突，需人工协调端口分配，运维复杂度指数级上升；
+
+    案例：微服务架构中，10个Web服务需映射到宿主机不同端口（如8080-8089），管理困难；
+
+- 端口映射：每个容器拥有独立的虚拟网络栈，通过宿主机端口转发到容器端口（如-p 8080:80），避免冲突，天然隔离；
+
+#### 安全性与攻击面控制
+- 主机网络：容器进程可访问宿主机所有网络接口（包括localhost），绕过防火墙规则；
+
+    风险：若容器被入侵，攻击者可直接扫描宿主机上的其他服务（如数据库、SSH）；
+
+    案例：2019年某云厂商因容器使用主机网络，导致攻击者通过容器访问宿主机Redis未授权端口；
+
+- 端口映射：仅暴露显式指定的端口（如-p 80:80），其他端口默认隔离，缩小攻击面；
+
+#### 可扩展性与编排系统兼容性
+- 主机网络：无法在Kubernetes、Swarm等编排系统中直接使用（K8s默认禁止hostNetwork，除非显式声明）；
+
+    原因：编排系统依赖服务发现（如K8s Service、Ingress），需通过端口映射或CNI插件动态分配端口；
+
+    案例：K8s中部署100个Nginx实例，若用主机网络，需手动分配100个不同宿主机端口，无法通过Service负载均衡；
+
+- 端口映射：与编排系统的服务抽象天然兼容（如K8s的ClusterIP+NodePort），支持水平扩展；
+
+#### 可观测性与故障排查
+- 主机网络：容器网络流量与宿主机混杂，难以区分容器间通信，导致监控和故障排查困难；
+
+    问题：tcpdump抓包时需过滤大量宿主机流量，无法直观定位某个容器的异常连接；
+
+- 端口映射：每个容器网络隔离，可独立抓包、监控端口流量（如docker logs结合端口映射日志）；
+
+#### 合规与审计需求
+- 主机网络：直接暴露宿主机网络栈，违反等保2.0等合规要求（需网络分区分域）；
+
+    案例：金融行业要求容器必须运行在隔离的虚拟网络中，禁止直接使用主机网络；
+
+- 端口映射：满足合规性，通过显式端口暴露+防火墙规则实现精细控制；
+
+### --ipc 进程间通信 共享 or 独占
+默认情况下，Docker 会给每个容器创建一个独立的 IPC 命名空间，因此容器内的 /dev/shm 默认只有 64MB，且与其他容器隔离；
+
+如果只是为了扩大 /dev/shm，可以用 `--shm-size` 而不是 `--ipc host` 方式
+
+结论：
+- 生产环境慎用 --ipc host，除非明确需要与宿主机共享 IPC 命名空间。
+- 更推荐 --shm-size 来扩大共享内存，同时保持隔离性。
 
 ## CloudNativeCompatibility
 其他内容及云原生平台适配
@@ -420,27 +473,27 @@ nvidia-smi 支持 --query-gpu=xxx --format=xxx 这种 csv, json  原生的结构
 [root@gd-alo-nodel ~]# nvidia-smi
 Tue Aug 19 10:59:10 2025
 +---------------------------------------------------------------------------------------+
-| NVIDIA-SMI 535.161.08              Driver Version: 535.161.08     CUDA Version: 12.2 |
+| NVIDIA-SMI 535.161.08              Driver Version: 535.161.08     CUDA Version: 12.2  |
 |-----------------------------------------+----------------------+----------------------+
 | GPU  Name                 Persistence-M | Bus-Id        Disp.A | Volatile Uncorr. ECC |
 | Fan  Temp   Perf          Pwr:Usage/Cap |         Memory-Usage | GPU-Util  Compute M. |
 |                                         |                      |               MIG M. |
 |=========================================+======================+======================|
-|   0  NVIDIA A10                    Off | 00000000:31:00.0 Off |                    0 |
-|  0%   77C    P0             84W / 150W |  1048MiB / 23028MiB  |      0%      Default |
+|   0  NVIDIA A10                    Off  | 00000000:31:00.0 Off |                    0 |
+|  0%   77C    P0             84W / 150W  |  1048MiB / 23028MiB  |      0%      Default |
 |                                         |                      |                  N/A |
 +-----------------------------------------+----------------------+----------------------+
-|   1  NVIDIA A10                    Off | 00000000:98:00.0 Off |                    0 |
-|  0%   35C    P8             15W / 150W |     0MiB / 23028MiB  |      0%      Default |
+|   1  NVIDIA A10                    Off  | 00000000:98:00.0 Off |                    0 |
+|  0%   35C    P8             15W / 150W  |     0MiB / 23028MiB  |      0%      Default |
 |                                         |                      |                  N/A |
 +-----------------------------------------+----------------------+----------------------+
 
 +---------------------------------------------------------------------------------------+
 | Processes:                                                                            |
-|  GPU   GI   CI        PID   Type   Process name                          GPU Memory |
-|        ID   ID                                                   Usage      |
+|  GPU   GI   CI        PID   Type   Process name                          GPU Memory   |
+|        ID   ID                                                           Usage        |
 |=======================================================================================|
-|    0   N/A  N/A      7461      C   /opt/conda/bin/python                   1040MiB |
+|    0   N/A  N/A      7461      C   /opt/conda/bin/python                   1040MiB    |
 +---------------------------------------------------------------------------------------+
 
 [root@gd-alo-nodel ~]# nvidia-smi --query-gpu=gpu_uuid,name --format=csv,noheader,nounits
