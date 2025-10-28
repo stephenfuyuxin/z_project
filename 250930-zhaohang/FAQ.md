@@ -7,6 +7,11 @@
 - MindIE：swr.cn-south-1.myhuaweicloud.com/ascendhub/mindie:2.1.RC2-300I-Duo-py311-openeuler24.03-lts
 - 模型：Qwen2.5-VL-7B-Instruct
 
+## 论坛上相类似的报错问题
+使用两张300i推理qwen2.5-vl-3b出错，
+
+https://www.hiascend.com/forum/thread-02102192969567862786-1-1.html
+
 ## 服务化 config.json 配置信息
 部分配置，
 ```json
