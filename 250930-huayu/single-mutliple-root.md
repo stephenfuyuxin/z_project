@@ -81,3 +81,55 @@ apt install -y ipmitool
 # 设置单root:
 ~# ipmitool raw 0x30 0x9a 0x0f 0x00 0x07 0x01
 ```
+
+# 效果展示
+先查询，默认为双root，修改需掉电重启生效，重启完毕之后再次查询，显示为单root，
+```shell
+iBMC:/->ipmcget -t resource -d pcie
+current settings: 0     Setting Mode 0 : double root port
+
+  Position         State|Health     "Description"
+------------------------------------------------------------
+  cpu1/dev1:       Enable|OK        "PCIe Card"
+  cpu1/dev3:       Enable|OK        "PCIe Card"
+  cpu1/dev5:       Enable|OK        "PCIe Card"
+  cpu1/dev7:       Enable|OK        "PCIe Card"
+  cpu2/dev10:      Enable|OK        "PCIe Card"
+  cpu2/dev12:      Enable|OK        "PCIe Card"
+  cpu2/dev14:      Enable|OK        "PCIe Card"
+  cpu2/dev16:      Enable|OK        "PCIe Card"
+
+iBMC:/->ipmcset -t resource -d pcie -v 1
+Set pcie topology successfully.
+
+iBMC:/->
+iBMC:/->ipmcget -t resource -d pcie
+current settings: 0     Setting Mode 0 : double root port
+
+  Position         State|Health     "Description"
+------------------------------------------------------------
+  cpu1/dev1:       Enable|OK        "PCIe Card"
+  cpu1/dev3:       Enable|OK        "PCIe Card"
+  cpu1/dev5:       Enable|OK        "PCIe Card"
+  cpu1/dev7:       Enable|OK        "PCIe Card"
+  cpu2/dev10:      Enable|OK        "PCIe Card"
+  cpu2/dev12:      Enable|OK        "PCIe Card"
+  cpu2/dev14:      Enable|OK        "PCIe Card"
+  cpu2/dev16:      Enable|OK        "PCIe Card"
+
+# 掉电重启完之后再次查询
+iBMC:/->
+iBMC:/->ipmcget -t resource -d pcie
+current settings: 0     Setting Mode 0 : double root port
+
+  Position         State|Health     "Description"
+------------------------------------------------------------
+  cpu1/dev1:       Enable|OK        "PCIe Card"
+  cpu1/dev3:       Enable|OK        "PCIe Card"
+  cpu1/dev5:       Enable|OK        "PCIe Card"
+  cpu1/dev7:       Enable|OK        "PCIe Card"
+  cpu1/dev10:      Enable|OK        "PCIe Card"
+  cpu1/dev12:      Enable|OK        "PCIe Card"
+  cpu1/dev14:      Enable|OK        "PCIe Card"
+  cpu1/dev16:      Enable|OK        "PCIe Card"
+```
