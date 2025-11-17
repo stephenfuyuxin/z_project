@@ -6,4 +6,4 @@ vLLM-Ascend 0.11.0/MindIE 2.1.RC2-800I-A2,
 
 evalscope 1.1.1/aisbench 0.0.1,
 
-DeepSeek-R1-Distill-Llama-70B
+DeepSeek-R1-Distill-Llama-70B, config.json->dtype: bfloat16
