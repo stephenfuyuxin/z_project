@@ -144,8 +144,9 @@ export HCCL_RDMA_PCIE_DIRECT_POST_NOSTRICT=TRUE
 export LD_PRELOAD=/usr/lib64/libjemalloc.so.2:$LD_PRELOAD
 ```
 
-## mingdieservice
+## mindie-service config.json
 按照总长输入输出配置4k(2k+2k)启动服务化，
+```json
 {
     "ServerConfig" :
     {
@@ -196,3 +197,56 @@ export LD_PRELOAD=/usr/lib64/libjemalloc.so.2:$LD_PRELOAD
         }
     }
 }
+```
+
+# Test
+mindiebenchmark, aisbench, evalscope
+
+## mindiebenchmark
+benchmark \
+--SyntheticConfigPath /usr/local/lib/python3.11/site-packages/mindiebenchmark/config/synthetic_config.json \
+--DatasetType "synthetic" \
+--ModelName llama \
+--ModelPath "/data/DeepSeek-R1-Distill-Llama-70B" \
+--TestType openai \
+--Http http://127.0.0.1:1025 \
+--ManagementHttp http://127.0.0.2:1026 \
+--Concurrency 16 \
+--TaskKind text \
+--Tokenizer True
+
+## aisbench
+```shell
+model="llama"
+path="/data/DeepSeek-R1-Distill-Llama-70B/"
+host_ip="127.0.0.1"
+host_port="1025"
+log_dir="output_log_${model}"
+
+# 修改配置文件 -> 修改流式 TGI 接口
+config_file="/usr/local/lib/python3.11/site-packages/ais_bench/benchmark/configs/models/tgi_api/tgi_stream_api_general.py"
+# 修改数据集 -> 随机数据集、设置数据量、固定输入输出长度
+synthetic_config="/usr/local/lib/python3.11/site-packages/ais_bench/datasets/synthetic/synthetic_config.py"
+
+# 启动方式
+~# ais_bench --models tgi_stream_api_general --dataset synthetic_gen --debug --mode perf
+```
+
+## evalscope
+```shell
+evalscope perf \
+--parallel 1 \
+--number  2  \
+--model llama \
+--url http://127.0.0.1:1025/v1/chat/completions \
+--api openai \
+--dataset random \
+--max-tokens 1024 \
+--min-tokens 1024 \
+--prefix-length 0 \
+--min-prompt-length 1024 \
+--max-prompt-length 1024 \
+--tokenizer-path /data/DeepSeek-R1-Distill-Llama-70B \
+--query-template '{"model": "%m", "messages": [{"role": "user", "content": "%p"}], "user": "evalscope_user_{{RANDOM}}"}' \
+--extra-args '{"ignore_eos": true}'
+```
