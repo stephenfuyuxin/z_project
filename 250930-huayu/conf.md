@@ -199,10 +199,38 @@ export LD_PRELOAD=/usr/lib64/libjemalloc.so.2:$LD_PRELOAD
 }
 ```
 
+## FAQ - mindie_error_log
+默认第一次启服务化，如果不是第一次，则需要先清理删除日志，
+- 设置环境变量
+```shell
+export ASDOPS_LOG_LEVEL=ERROR
+export ASDOPS_LOG_TO_STDOUT=1
+```
+
+- 拉起服务化
+
+- 抓关键字
+```shell
+grep -rn ERROR /root/mindie/log
+grep -rn ERROR /root/ascend/log
+```
+
+- 删除日志
+```shell
+rm -rf /root/mindie/* && rm -rf /root/ascend/*
+```
+
+- 去使能环境变量
+```shell
+unset ASDOPS_LOG_LEVEL
+unset ASDOPS_LOG_TO_STDOUT
+```
+
 # Test
 mindiebenchmark, aisbench, evalscope
 
 ## mindiebenchmark
+```shell
 benchmark \
 --SyntheticConfigPath /usr/local/lib/python3.11/site-packages/mindiebenchmark/config/synthetic_config.json \
 --DatasetType "synthetic" \
@@ -214,6 +242,7 @@ benchmark \
 --Concurrency 16 \
 --TaskKind text \
 --Tokenizer True
+```
 
 ## aisbench
 ```shell
