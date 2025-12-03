@@ -11,11 +11,12 @@ auto_synthetic.sh
 - 自动生成详细的测试日志
 
 # 文件结构-举例
-text
+```shell
 .
 ├── auto_synthetic.sh            # 主测试脚本
 ├── output_log_qwen3-8B/         # 日志文件目录（自动创建）
 └── outputs/                     # 测试输出目录（自动创建）
+```
 
 # 测试执行
 
