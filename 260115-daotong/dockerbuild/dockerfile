@@ -1,0 +1,184 @@
+############################
+# From Ubuntu22.04 AS base #
+############################
+FROM ubuntu:22.04 AS base
+LABEL maintainer="fuyuxin"
+
+ARG UBUNTU_VERSION=22.04
+ARG ARCH
+ARG DEVICE
+ARG PYTHON_VERSION
+LABEL description="Image for ${DEVICE} based on Ubuntu${UBUNTU_VERSION} ${ARCH}"
+
+RUN groupadd -g 1000 HwHiAiUser && \
+    useradd -d /home/HwHiAiUser -m -u 1000 -g 1000 -s /bin/bash HwHiAiUser && \
+    chmod -R 750 /home/HwHiAiUser
+
+# base阶段，宿主机OS apt-get install 必须使用 root 用户进行安装
+USER root
+WORKDIR /root
+
+ENV LD_LIBRARY_PATH=/usr/local/Ascend/driver/lib64/driver:/usr/local/Ascend/driver/lib64/common:$LD_LIBRARY_PATH \
+    TZ=Asia/Shanghai \
+    LANG=en_US.UTF-8 \
+    LANGUAGE=en_US:en
+
+RUN apt-get clean && apt-get update && \
+    apt-get install -y --no-install-recommends ca-certificates && \
+    # 备份并写入清华 ubuntu-ports 源
+    cp /etc/apt/sources.list /etc/apt/sources.list.bak && \
+    { \
+      echo "deb https://mirrors.tuna.tsinghua.edu.cn/ubuntu-ports/ jammy main restricted universe multiverse"; \
+      echo "deb https://mirrors.tuna.tsinghua.edu.cn/ubuntu-ports/ jammy-updates main restricted universe multiverse"; \
+      echo "deb https://mirrors.tuna.tsinghua.edu.cn/ubuntu-ports/ jammy-backports main restricted universe multiverse"; \
+      echo "deb https://mirrors.tuna.tsinghua.edu.cn/ubuntu-ports/ jammy-security main restricted universe multiverse"; \
+    } > /etc/apt/sources.list && \
+    apt-get clean && apt-get update && \
+    DEBIAN_FRONTEND=noninteractive apt-get install --no-install-recommends -y \
+        vim-tiny vim sudo git wget zip unzip tar curl gzip \
+        netbase tzdata util-linux findutils pciutils \
+        apt-transport-https bash build-essential xz-utils locales \
+        cmake libgl1-mesa-dev libegl1-mesa-dev libgles2-mesa-dev \
+        libglu1-mesa-dev mesa-common-dev libglx-mesa0 libgbm-dev \
+        zlib1g-dev libssl-dev libffi-dev \
+        dpkg-dev gcc gnupg libbluetooth-dev libbz2-dev libc6-dev libdb-dev \
+        libgdbm-dev liblzma-dev libncursesw5-dev libreadline-dev \
+        libsqlite3-dev make tk-dev uuid-dev zlib1g-dev build-essential \
+        python3-dev ffmpeg libavcodec-dev libavformat-dev libavutil-dev \
+        libswscale-dev libavfilter-dev && \
+    locale-gen en_US.UTF-8 && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/* /var/tmp/* /tmp/*
+##########################
+# From base AS pythonpip #
+##########################
+FROM base AS pythonpip
+
+ARG ARCH
+ARG DEVICE
+ARG PYTHON_VERSION
+
+# Python3 install and configuraiton. Install Python3.x according the 'ARG' PYTHON_VERSION, below:
+# curl -k https://mirrors.huaweicloud.com/python/${PYTHON_VERSION}/Python-${PYTHON_VERSION}.tar.xz -o Python-${PYTHON_VERSION}.tar.xz && \
+RUN wget -q http://172.17.0.1:3000/Python-${PYTHON_VERSION}.tar.xz -P ~/ && \
+    tar -xf Python-${PYTHON_VERSION}.tar.xz && \
+    cd Python-${PYTHON_VERSION} && ./configure --prefix=/usr/local/python${PYTHON_VERSION} --enable-shared --enable-loadable-sqlite-extensions --enable-optimizations && \
+    make -j8 && make install && \
+    ln -sf /usr/local/python${PYTHON_VERSION}/bin/python3 /usr/bin/python3 && \
+    ln -sf /usr/local/python${PYTHON_VERSION}/bin/python3 /usr/bin/python && \
+    ln -sf /usr/local/python${PYTHON_VERSION}/bin/pip3 /usr/bin/pip3 && \
+    ln -sf /usr/local/python${PYTHON_VERSION}/bin/pip3 /usr/bin/pip && \
+    cd .. && \
+    rm -rf Python-* && \
+    rm -rf /tmp/* && \
+    #===========
+    # Pip3 source and install. Configure the pip3 source. An example is provided below:
+    mkdir -p ~/.pip  && \
+    echo '[global] \n\
+    index-url = https://mirrors.huaweicloud.com/repository/pypi/simple\n\
+    trusted-host = mirrors.huaweicloud.com\n\
+    timeout = 120' >> ~/.pip/pip.conf
+ENV PATH=/usr/local/python${PYTHON_VERSION}/bin:$PATH \
+    LD_LIBRARY_PATH=/usr/local/python${PYTHON_VERSION}/lib:$LD_LIBRARY_PATH
+##########################
+# FROM pythonpip AS cann #
+##########################
+FROM pythonpip AS cann
+
+ARG DEVICE
+ARG ARCH
+ARG CANN_VERSION
+
+#环境变量 ASCEND_TOOLKIT_HOME 设置根据root和非root用户进行区分
+# ASCEND_TOOLKIT_HOME=/home/HwHiAiUser/Ascend/ascend-toolkit/latest
+ENV ASCEND_TOOLKIT_HOME=/usr/local/Ascend/ascend-toolkit/latest \
+    LD_LIBRARY_PATH=${ASCEND_TOOLKIT_HOME}/lib64:${ASCEND_TOOLKIT_HOME}/lib64/plugin/opskernel:$LD_LIBRARY_PATH \
+    LD_LIBRARY_PATH=${ASCEND_TOOLKIT_HOME}/lib64/plugin/nnengine:${ASCEND_TOOLKIT_HOME}/opp/built-in/op_impl/ai_core/tbe/op_tiling/lib/linux/${ARCH}:$LD_LIBRARY_PATH \
+    LD_LIBRARY_PATH=${ASCEND_TOOLKIT_HOME}/tools/aml/lib64:${ASCEND_TOOLKIT_HOME}/tools/aml/lib64/plugin:$LD_LIBRARY_PATH \
+    PYTHONPATH=${ASCEND_TOOLKIT_HOME}/python/site-packages:${ASCEND_TOOLKIT_HOME}/opp/built-in/op_impl/ai_core/tbe:$PYTHONPATH \
+    PATH=$PATH:${ASCEND_TOOLKIT_HOME}/bin:${ASCEND_TOOLKIT_HOME}/compiler/ccec_compiler/bin:${ASCEND_TOOLKIT_HOME}/tools/ccec_compiler/bin \
+    ASCEND_AICPU_PATH=${ASCEND_TOOLKIT_HOME} \
+    ASCEND_OPP_PATH=${ASCEND_TOOLKIT_HOME}/opp \
+    TOOLCHAIN_HOME=${ASCEND_TOOLKIT_HOME}/toolkit \
+    ASCEND_HOME_PATH=${ASCEND_TOOLKIT_HOME}
+RUN wget -q http://172.17.0.1:3000/Ascend-cann-toolkit_${CANN_VERSION}_linux-${ARCH}.run -P ~/ && \
+    wget -q http://172.17.0.1:3000/Ascend-cann-kernels-${DEVICE}_${CANN_VERSION}_linux-${ARCH}.run -P ~/ && \
+    wget -q http://172.17.0.1:3000/install_cann.sh -P ~/ && \
+    #===========
+    bash install_cann.sh && \
+    #===========
+    rm -rf ~/*.run ~/install_*.sh
+####################
+# FROM cann AS pta #
+####################
+FROM cann AS pta
+
+ARG DEVICE
+ARG ARCH
+ARG TORCH_VERSION
+ARG PY_VERSION
+
+RUN wget -q http://172.17.0.1:3000/torch-${TORCH_VERSION}+cpu-cp${PY_VERSION}-cp${PY_VERSION}-manylinux_2_28_${ARCH}.whl -P ~/ && \
+    wget -q http://172.17.0.1:3000/torch_npu-${TORCH_VERSION}-cp${PY_VERSION}-cp${PY_VERSION}-manylinux_2_28_${ARCH}.whl -P ~/ && \
+    wget -q http://172.17.0.1:3000/install_pta.sh -P ~/ && \
+    #===========
+    bash install_pta.sh && \
+    #===========
+    pip3 install --upgrade pip && \
+    #===========
+    pip3 install torchvision==0.22.1 --index-url https://download.pytorch.org/whl/cpu && \
+    pip cache purge && \
+    rm -rf ~/*.whl ~/install_*.sh && \
+    rm -rf ~/.cache/pip
+########################
+# FROM pta AS aisbench #
+########################
+FROM pta AS aisbench
+
+RUN wget -q http://172.17.0.1:3000/aclruntime-0.0.2-cp311-cp311-linux_aarch64.whl -P ~/ && \
+    wget -q http://172.17.0.1:3000/ais_bench-0.0.2-py3-none-any.whl -P ~/ && \
+    #===========
+    pip3 install aclruntime-0.0.2-cp311-cp311-linux_aarch64.whl && \
+    pip3 install ais_bench-0.0.2-py3-none-any.whl && \
+    #===========
+    pip cache purge && \
+    rm -rf ~/*.whl && \
+    rm -rf ~/.cache/pip
+#########################
+# FROM aisbench AS sam3 #
+#########################
+FROM aisbench AS sam3
+
+RUN wget -q http://172.17.0.1:3000/requirements.txt -P ~/ && \
+    wget -q http://172.17.0.1:3000/decord.tar -P ~/ && \
+    wget -q http://172.17.0.1:3000/sam3.tar -P ~/ && \
+    wget -q http://172.17.0.1:3000/transformers.tar -P ~/ && \
+    wget -q http://172.17.0.1:3000/env.sh -P ~/ && \
+    #===========
+    bash ~/env.sh && \
+    #===========
+    tar -xzvf ~/sam3.tar && \
+    cd ~/sam3 && \
+    pip install -e . && \
+    cd ~/ && \
+    #===========
+    tar -xzvf ~/decord.tar && \
+    cd ~/decord && \
+    mkdir build && cd build && \
+    cmake .. -DUSE_CUDA=0 && \
+    make -j16 && \
+    cd ../python && \
+    python3 setup.py install --user && \
+    cd ~/ && \
+    #===========
+    pip3 install --upgrade pip && \
+    pip3 install -r requirements.txt --no-cache-dir --no-deps && \
+    #===========
+    tar -xzvf ~/transformers.tar && \
+    cd transformers && \
+    pip install '.[torch]' && \
+    cd ~/ && \
+    #===========
+    pip cache purge && \
+    rm -rf ~/requirements.txt ~/decord.tar ~/sam3.tar ~/transformers.tar ~/env.sh && \
+    rm -rf ~/.cache/pip
